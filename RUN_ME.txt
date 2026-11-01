@@ -1,0 +1,18 @@
+BBIM713 Capstone - how to run (Windows, Python 3.11)
+
+1. Open this folder in VS Code, then open the terminal (Ctrl + `).
+2. Make your key file: copy .env.example, rename the copy to exactly .env,
+   and put your own OpenAI key after OPENAI_API_KEY= (one "sk-", no spaces, no quotes).
+   Never share .env or upload it to GitHub.
+3. py -3.11 -m pip install -r requirements.txt
+ (one time only) py -3.11 -m playwright install chromium
+4. Quick key test (price should be 49.0 and _source should be llm):
+   py -3.11 -c "from src.extraction.llm_extractor import LLMSemanticExtractor as L; print(L().extract_attributes('Hendricks Gin from Scotland, 44% alcohol, 700ml bottle, priced at forty-nine dollars', 'u', ''))"
+5. py -3.11 main.py            (replays 23 saved pages from 15 sites; writes data/processed/ and data/processed/merchants/)
+6. py -3.11 -m streamlit run dashboard.py
+7. Tests: py -3.11 tests/test_suite.py   and   py -3.11 tests/test_integrity.py
+8. Field accuracy (no OpenAI calls, run after main.py): py -3.11 field_accuracy.py
+
+Notes: 3 of the 18 configured sites are not crawled (Cardhu Distillery and First Choice Liquor need a login; Henrys NZ is closed).
+The benchmark is a snapshot replay of saved sample pages, not a live crawl.
+Without a real key the program prints a warning and uses a backup parser.
